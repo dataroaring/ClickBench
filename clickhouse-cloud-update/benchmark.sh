@@ -15,10 +15,12 @@ clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --query 
   INSERT INTO hits SELECT * FROM url('https://datasets.clickhouse.com/hits_compatible/athena_partitioned/hits_{0..99}.parquet')
 "
 
-# update 25%
-clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --query "
-  INSERT INTO hits SELECT * FROM url('https://datasets.clickhouse.com/hits_compatible/athena_partitioned/hits_{0..25}.parquet')
-"
+# update about 25%
+for index in `seq 0 25`; do
+  clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --query "
+    INSERT INTO hits SELECT * FROM url('https://datasets.clickhouse.com/hits_compatible/athena_partitioned/hits_${index}.parquet')
+  "
+done
 
 # 343.455
 
