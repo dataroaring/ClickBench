@@ -8,6 +8,7 @@
 
 # export FQDN=...
 # export PASSWORD=...
+# export PERCENTAGE=25
 
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure < create.sql
 
@@ -15,8 +16,7 @@ clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --query 
   INSERT INTO hits SELECT * FROM url('https://datasets.clickhouse.com/hits_compatible/athena_partitioned/hits_{0..99}.parquet')
 "
 
-# update about 25%
-for index in `seq 0 25`; do
+for index in `seq 0 ${PERCENTAGE}`; do
   clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --query "
     INSERT INTO hits SELECT * FROM url('https://datasets.clickhouse.com/hits_compatible/athena_partitioned/hits_${index}.parquet')
   "
