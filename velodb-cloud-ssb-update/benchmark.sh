@@ -5,8 +5,8 @@ export VELODB_ENDPOINT=${VELODB_ENDPOINT:-"http://localhost:8030"}
 export VELODB_USER=${VELODB_USER:-"root"}
 export VELODB_PASSWORD=${VELODB_PASSWORD:-""}
 export VELODB_PORT=${VELODB_PORT:-"9030"}
-export S3_AK=
-export S3_SK=
+export S3_AK=${S3_AK:-}
+export S3_SK=${S3_SK:-}
 export PERCENTAGE=${PERCENTAGE:-25}
 
 ROOT=$(pwd)
