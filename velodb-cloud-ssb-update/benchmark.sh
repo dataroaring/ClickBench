@@ -23,39 +23,43 @@ date
 START=$(date +%s)
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO customer SELECT * FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/customer.tbl.gz',
+    INSERT INTO customer SELECT c1, c2, c3, c4, c5, c6, c7, c8 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/customer.tbl.gz',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
             's3.region' = 'us-west-2',
-            'format' = 'csv');
+            'format' = 'csv',
+            'column_separator' = '|');
 "
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO dates SELECT * FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/date.tbl.gz',
+    INSERT INTO dates SELECT c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/date.tbl.gz',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
             's3.region' = 'us-west-2',
-            'format' = 'csv');
+            'format' = 'csv',
+            'column_separator' = '|');
 "
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO supplier SELECT * FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/supplier.tbl.gz',
+    INSERT INTO supplier SELECT c1, c2, c3, c4, c5, c6, c7 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/supplier.tbl.gz',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
             's3.region' = 'us-west-2',
-            'format' = 'csv');
+            'format' = 'csv',
+            'column_separator' = '|');
 "
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO part SELECT * FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/part.tbl.gz',
+    INSERT INTO part SELECT c1, c2, c3, c4, c5, c6, c7, c8, c9 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/part.tbl.gz',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
             's3.region' = 'us-west-2',
-            'format' = 'csv');
+            'format' = 'csv',
+            'column_separator' = '|');
 "
 
 ${MYSQL_CMD} ssb -e "
@@ -64,7 +68,8 @@ ${MYSQL_CMD} ssb -e "
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
             's3.region' = 'us-west-2',
-            'format' = 'csv');
+            'format' = 'csv',
+            'column_separator' = '|');
 "
 
 END=$(date +%s)
@@ -78,7 +83,8 @@ for index in `seq 0 $((${PERCENTAGE} / 10))`; do
                 's3.secret_key' = '${S3_SK}',
                 's3.endpoint' = 's3.us-west-2.amazonaws.com',
                 's3.region' = 'us-west-2',
-                'format' = 'csv');
+                'format' = 'csv',
+                'column_separator' = '|');
 done
 
 # Dataset contains 99997497 rows, storage size is about 17319588503 bytes
