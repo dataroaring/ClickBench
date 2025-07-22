@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `lineorder` (
   `lo_orderkey` int(11) NOT NULL COMMENT "",
+  `lo_orderdate` int(11) NOT NULL COMMENT "",
   `lo_linenumber` int(11) NOT NULL COMMENT "",
   `lo_custkey` int(11) NOT NULL COMMENT "",
   `lo_partkey` int(11) NOT NULL COMMENT "",
   `lo_suppkey` int(11) NOT NULL COMMENT "",
-  `lo_orderdate` int(11) NOT NULL COMMENT "",
   `lo_orderpriority` varchar(16) NOT NULL COMMENT "",
   `lo_shippriority` int(11) NOT NULL COMMENT "",
   `lo_quantity` int(11) NOT NULL COMMENT "",
