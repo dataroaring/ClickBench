@@ -59,7 +59,7 @@ ${MYSQL_CMD} ssb -e "
 "
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO lineorder SELECT * FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.*',
+    INSERT INTO lineorder SELECT c1, c6, c2, c3, c4, c5, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.*',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
@@ -71,6 +71,15 @@ END=$(date +%s)
 LOADTIME=$(echo "$END - $START" | bc)
 echo "Load time: $LOADTIME"
 echo "$LOADTIME" > loadtime
+
+for index in `seq 0 $((${PERCENTAGE} / 10))`; do
+    INSERT INTO lineorder SELECT c1, c6, c2, c3, c4, c5, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.${index}.gz',
+                's3.access_key'= '${S3_AK}',
+                's3.secret_key' = '${S3_SK}',
+                's3.endpoint' = 's3.us-west-2.amazonaws.com',
+                's3.region' = 'us-west-2',
+                'format' = 'csv');
+done
 
 # Dataset contains 99997497 rows, storage size is about 17319588503 bytes
 mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELODB_PORT} -u${VELODB_USER} ssb -e "SELECT count(*) FROM lineorder" | tee -a log.txt
