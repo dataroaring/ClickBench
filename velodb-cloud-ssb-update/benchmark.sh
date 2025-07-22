@@ -33,7 +33,7 @@ ${MYSQL_CMD} ssb -e "
 "
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO dates SELECT c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/date.tbl.gz',
+    INSERT INTO dates SELECT c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/date.tbl.gz',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
