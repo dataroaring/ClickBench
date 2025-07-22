@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `lineorder` (
   `lo_commitdate` int(11) NOT NULL COMMENT "",
   `lo_shipmode` varchar(11) NOT NULL COMMENT ""
 ) ENGINE=OLAP
-UNIQUE KEY(`lo_orderkey`)
+UNIQUE KEY(`lo_orderkey`, `lo_orderdate`)
 COMMENT "OLAP"
 PARTITION BY RANGE(`lo_orderdate`)
 (
