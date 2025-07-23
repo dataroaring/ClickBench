@@ -16,6 +16,12 @@ export MYSQL_CMD="mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELOD
 ${MYSQL_CMD} -e 'create database if not exists ssb'
 ${MYSQL_CMD} ssb <"$ROOT"/create.sql
 
+${MYSQL_CMD} ssb 'drop table if exists customer force'
+${MYSQL_CMD} ssb 'drop table if exists part force'
+${MYSQL_CMD} ssb 'drop table if exists suppiler force'
+${MYSQL_CMD} ssb 'drop table if exists dates force'
+${MYSQL_CMD} ssb 'drop table if exists lineorder force'
+
 # Load data
 echo "start loading, estimated to take about 9 minutes ..."
 
@@ -77,14 +83,16 @@ LOADTIME=$(echo "$END - $START" | bc)
 echo "Load time: $LOADTIME"
 echo "$LOADTIME" > loadtime
 
-for index in `seq 0 $((${PERCENTAGE} / 10))`; do
-    INSERT INTO lineorder SELECT c1, c6, c2, c3, c4, c5, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.${index}.gz',
+for index in `seq 1 $((${PERCENTAGE} / 10))`; do
+    ${MYSQL_CMD} ssb -e "
+        INSERT INTO lineorder SELECT c1, c6, c2, c3, c4, c5, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.${index}.gz',
                 's3.access_key'= '${S3_AK}',
                 's3.secret_key' = '${S3_SK}',
                 's3.endpoint' = 's3.us-west-2.amazonaws.com',
                 's3.region' = 'us-west-2',
                 'format' = 'csv',
                 'column_separator' = '|');
+    "
 done
 
 # Dataset contains 99997497 rows, storage size is about 17319588503 bytes

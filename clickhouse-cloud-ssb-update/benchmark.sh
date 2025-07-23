@@ -10,6 +10,12 @@ export FQDN=${FQDN:-"your-clickhouse-cloud-fqdn"}
 export PASSWORD=${PASSWORD:-"your-clickhouse-cloud-password"}
 export PERCENTAGE=${PERCENTAGE:-25}
 
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --query "drop table if exists customer"
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --query "drop table if exists dates"
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --query "drop table if exists part"
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --query "drop table if exists supplier"
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --query "drop table if exists lineorder"
+
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure < create.sql
 
 START=$(date +%s)
