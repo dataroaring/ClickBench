@@ -5,8 +5,8 @@ export VELODB_ENDPOINT=${VELODB_ENDPOINT:-"http://localhost:8030"}
 export VELODB_USER=${VELODB_USER:-"root"}
 export VELODB_PASSWORD=${VELODB_PASSWORD:-""}
 export VELODB_PORT=${VELODB_PORT:-"9030"}
-export S3_AK=
-export S3_SK=
+export S3_AK=${S3_AK:-}
+export S3_SK=${S3_SK:-}
 export PERCENTAGE=${PERCENTAGE:-25}
 
 ROOT=$(pwd)
@@ -45,7 +45,7 @@ ${MYSQL_CMD} hits -e "
 "
 
 for index in `seq 0 ${PERCENTAGE}`; do
-    mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELODB_PORT} -u${VELODB_USER} hits -e "
+    ${MYSQL_CMD} hits -e "
         INSERT INTO hits SELECT ${COLUMN_MAPPING} FROM s3('uri' = 's3://yyq-test/hits_compatible/athena_partitioned/hits_${index}.parquet',
                 's3.access_key'= '${S3_AK}',
                 's3.secret_key' = '${S3_SK}',
@@ -61,10 +61,7 @@ echo "Load time: $LOADTIME"
 echo "$LOADTIME" > loadtime
 
 # Dataset contains 99997497 rows, storage size is about 17319588503 bytes
-mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELODB_PORT} -u${VELODB_USER} hits -e "SELECT count(*) FROM hits"
-du -bs "$DORIS_HOME"/be/storage/ | cut -f1 | tee storage_size
-
-echo "Data size: $(cat storage_size)"
+${MYSQL_CMD} hits -e "SELECT count(*) FROM hits"
 
 ./run.sh 2>&1 | tee -a log.txt
 
