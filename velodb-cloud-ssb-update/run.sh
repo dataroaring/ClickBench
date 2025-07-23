@@ -8,6 +8,6 @@ while read -r query; do
     echo 3 | sudo tee /proc/sys/vm/drop_caches >/dev/null
 
     for i in $(seq 1 $TRIES); do
-        mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELODB_PORT} -u${VELODB_USER} hits -e "${query}"
+        mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELODB_PORT} -u${VELODB_USER} ssb -e "${query}"
     done
 done <queries.sql
