@@ -6,9 +6,9 @@
 
 # Load the data
 
-# export FQDN=...
-# export PASSWORD=...
-# export PERCENTAGE=25
+export FQDN=${FQDN:-"your-clickhouse-cloud-fqdn"}
+export PASSWORD=${PASSWORD:-"your-clickhouse-cloud-password"}
+export PERCENTAGE=${PERCENTAGE:-25}
 
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure < create.sql
 
