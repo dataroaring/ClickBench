@@ -102,6 +102,8 @@ du -bs "$DORIS_HOME"/be/storage/ | cut -f1 | tee storage_size
 
 echo "Data size: $(cat storage_size)"
 
+rm log.txt -rf
+
 ./run.sh 2>&1 | tee -a log.txt
 
 cat log.txt |

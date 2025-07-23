@@ -63,6 +63,8 @@ echo "$LOADTIME" > loadtime
 # Dataset contains 99997497 rows, storage size is about 17319588503 bytes
 ${MYSQL_CMD} hits -e "SELECT count(*) FROM hits"
 
+rm log.txt -rf
+
 ./run.sh 2>&1 | tee -a log.txt
 
 cat log.txt |
