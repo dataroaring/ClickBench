@@ -16,11 +16,11 @@ export MYSQL_CMD="mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELOD
 ${MYSQL_CMD} -e 'create database if not exists ssb'
 ${MYSQL_CMD} ssb <"$ROOT"/create.sql
 
-${MYSQL_CMD} ssb 'drop table if exists customer force'
-${MYSQL_CMD} ssb 'drop table if exists part force'
-${MYSQL_CMD} ssb 'drop table if exists suppiler force'
-${MYSQL_CMD} ssb 'drop table if exists dates force'
-${MYSQL_CMD} ssb 'drop table if exists lineorder force'
+${MYSQL_CMD} ssb -e 'drop table if exists customer force'
+${MYSQL_CMD} ssb -e 'drop table if exists part force'
+${MYSQL_CMD} ssb -e 'drop table if exists suppiler force'
+${MYSQL_CMD} ssb -e 'drop table if exists dates force'
+${MYSQL_CMD} ssb -e 'drop table if exists lineorder force'
 
 # Load data
 echo "start loading, estimated to take about 9 minutes ..."
