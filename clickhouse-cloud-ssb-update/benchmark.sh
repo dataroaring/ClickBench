@@ -31,7 +31,7 @@ clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format
 "
 
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
-  INSERT INTO lineorder SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/lineorder.tbl.{1..10}.gz}', CSV)
+  INSERT INTO lineorder SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/lineorder.tbl.{1..10}.gz', CSV)
 "
 
 END=$(date +%s)
