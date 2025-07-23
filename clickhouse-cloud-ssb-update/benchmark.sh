@@ -12,32 +12,44 @@
 
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure < create.sql
 
-clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_field_delimiter='|' --format_custom_escaping_rule='CSV' --query "
-  INSERT INTO customer SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/customer.tbl.gz', CustomSeparated)
+START=$(date +%s)
+
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
+  INSERT INTO customer SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/customer.tbl.gz', CSV)
 "
 
-clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_field_delimiter='|' --format_custom_escaping_rule='CSV' --query "
-  INSERT INTO date SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/date.tbl.gz', CustomSeparated)
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
+  INSERT INTO dates SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/date.tbl.gz', CSV)
 "
 
-clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_field_delimiter='|' --format_custom_escaping_rule='CSV' --query "
-  INSERT INTO part SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/part.tbl.gz', CustomSeparated)
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
+  INSERT INTO part SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/part.tbl.gz', CSV)
 "
 
-clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_field_delimiter='|' --format_custom_escaping_rule='CSV' --query "
-  INSERT INTO supplier SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/supplier.tbl.gz', CustomSeparated)
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
+  INSERT INTO supplier SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/supplier.tbl.gz', CSV)
 "
 
-clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_field_delimiter='|' --format_custom_escaping_rule='CSV' --query "
-  INSERT INTO lineorder SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/lineorder.tbl.*', CustomSeparated)
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
+  INSERT INTO lineorder SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/lineorder.tbl.{1..10}.gz}', CSV)
 "
+END=$(date +%s)
+LOADTIME=$(echo "$END - $START" | bc)
+echo "Load time: $LOADTIME"
+echo "$LOADTIME" > loadtime
 
-for index in `seq 0 $((${PERCENTAGE} / 10))`; do
-    clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_field_delimiter='|' --format_custom_escaping_rule='CSV' --query "
-    INSERT INTO lineorder SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/lineorder.tbl.${index}.gz', CustomSeparated)
+START=$(date +%s)
+
+for index in `seq 1 $((${PERCENTAGE} / 10))`; do
+    clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --format_custom_escaping_rule='CSV' --format_csv_delimiter='|' --query "
+    INSERT INTO lineorder SELECT * FROM url('https://yyq-test.s3.us-west-2.amazonaws.com/regression/ssb/sf100/lineorder.tbl.${index}.gz', CSV)
   "
 done
 
+END=$(date +%s)
+LOADTIME=$(echo "$END - $START" | bc)
+echo "Load time: $LOADTIME"
+echo "$LOADTIME" > updatetime
 # Run the queries
 
 ./run.sh

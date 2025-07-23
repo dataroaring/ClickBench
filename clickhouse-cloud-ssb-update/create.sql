@@ -1,82 +1,82 @@
 CREATE TABLE customer
 (
-        C_CUSTKEY       UInt32,
-        C_NAME          String,
-        C_ADDRESS       String,
-        C_CITY          LowCardinality(String),
-        C_NATION        LowCardinality(String),
-        C_REGION        LowCardinality(String),
-        C_PHONE         String,
-        C_MKTSEGMENT    LowCardinality(String)
+        c_custkey       UInt32,
+        c_name          String,
+        c_address       String,
+        c_city          LowCardinality(String),
+        c_nation        LowCardinality(String),
+        c_region        LowCardinality(String),
+        c_phone         String,
+        c_mktsegment    LowCardinality(String)
 )
-ENGINE = ReplacingMergeTree ORDER BY (C_CUSTKEY);
+ENGINE = ReplacingMergeTree ORDER BY (c_custkey);
 
 CREATE TABLE lineorder
 (
-    LO_ORDERKEY             UInt32,
-    LO_LINENUMBER           UInt8,
-    LO_CUSTKEY              UInt32,
-    LO_PARTKEY              UInt32,
-    LO_SUPPKEY              UInt32,
-    LO_ORDERDATE            Date,
-    LO_ORDERPRIORITY        LowCardinality(String),
-    LO_SHIPPRIORITY         UInt8,
-    LO_QUANTITY             UInt8,
-    LO_EXTENDEDPRICE        UInt32,
-    LO_ORDTOTALPRICE        UInt32,
-    LO_DISCOUNT             UInt8,
-    LO_REVENUE              UInt32,
-    LO_SUPPLYCOST           UInt32,
-    LO_TAX                  UInt8,
-    LO_COMMITDATE           Date,
-    LO_SHIPMODE             LowCardinality(String)
+    lo_orderkey             UInt32,
+    lo_linenumber           UInt8,
+    lo_custkey              UInt32,
+    lo_partkey              UInt32,
+    lo_suppkey              UInt32,
+    lo_orderdate            Date,
+    lo_orderpriority        LowCardinality(String),
+    lo_shippriority         UInt8,
+    lo_quantity             UInt8,
+    lo_extendedprice        UInt32,
+    lo_ordtotalprice        UInt32,
+    lo_discount             UInt8,
+    lo_revenue              UInt32,
+    lo_supplycost           UInt32,
+    lo_tax                  UInt8,
+    lo_commitdate           Date,
+    lo_shipmode             LowCardinality(String)
 )
-ENGINE = ReplacingMergeTree PARTITION BY toYear(LO_ORDERDATE) ORDER BY (LO_ORDERDATE, LO_ORDERKEY);
+ENGINE = ReplacingMergeTree PARTITION BY toYear(lo_orderdate) ORDER BY (lo_orderdate, lo_orderkey);
 
 CREATE TABLE part
 (
-        P_PARTKEY       UInt32,
-        P_NAME          String,
-        P_MFGR          LowCardinality(String),
-        P_CATEGORY      LowCardinality(String),
-        P_BRAND         LowCardinality(String),
-        P_COLOR         LowCardinality(String),
-        P_TYPE          LowCardinality(String),
-        P_SIZE          UInt8,
-        P_CONTAINER     LowCardinality(String)
+        p_partkey       UInt32,
+        p_name          String,
+        p_mfgr          LowCardinality(String),
+        p_category      LowCardinality(String),
+        p_brand         LowCardinality(String),
+        p_color         LowCardinality(String),
+        p_type          LowCardinality(String),
+        p_size          UInt8,
+        p_container     LowCardinality(String)
 )
-ENGINE = ReplacingMergeTree ORDER BY P_PARTKEY;
+ENGINE = ReplacingMergeTree ORDER BY p_partkey;
 
 CREATE TABLE supplier
 (
-        S_SUPPKEY       UInt32,
-        S_NAME          String,
-        S_ADDRESS       String,
-        S_CITY          LowCardinality(String),
-        S_NATION        LowCardinality(String),
-        S_REGION        LowCardinality(String),
-        S_PHONE         String
+        s_suppkey       UInt32,
+        s_name          String,
+        s_address       String,
+        s_city          LowCardinality(String),
+        s_nation        LowCardinality(String),
+        s_region        LowCardinality(String),
+        s_phone         String
 )
-ENGINE = ReplacingMergeTree ORDER BY S_SUPPKEY;
+ENGINE = ReplacingMergeTree ORDER BY s_suppkey;
 
 CREATE TABLE dates
 (
-        D_DATEKEY            Date,
-        D_DATE               FixedString(18),
-        D_DAYOFWEEK          LowCardinality(String),
-        D_MONTH              LowCardinality(String),
-        D_YEAR               UInt16,
-        D_YEARMONTHNUM       UInt32,
-        D_YEARMONTH          LowCardinality(FixedString(7)),
-        D_DAYNUMINWEEK       UInt8,
-        D_DAYNUMINMONTH      UInt8,
-        D_DAYNUMINYEAR       UInt16,
-        D_MONTHNUMINYEAR     UInt8,
-        D_WEEKNUMINYEAR      UInt8,
-        D_SELLINGSEASON      String,
-        D_LASTDAYINWEEKFL    UInt8,
-        D_LASTDAYINMONTHFL   UInt8,
-        D_HOLIDAYFL          UInt8,
-        D_WEEKDAYFL          UInt8
+        d_datekey            Date,
+        d_date               FixedString(18),
+        d_dayofweek          LowCardinality(String),
+        d_month              LowCardinality(String),
+        d_year               UInt16,
+        d_yearmonthnum       UInt32,
+        d_yearmonth          LowCardinality(FixedString(7)),
+        d_daynuminweek       UInt8,
+        d_daynuminmonth      UInt8,
+        d_daynuminyear       UInt16,
+        d_monthnuminyear     UInt8,
+        d_weeknuminyear      UInt8,
+        d_sellingseason      String,
+        d_lastdayinweekfl    UInt8,
+        d_lastdayinmonthfl   UInt8,
+        d_holidayfl          UInt8,
+        d_weekdayfl          UInt8
 )
-ENGINE = ReplacingMergeTree ORDER BY D_DATEKEY;
+ENGINE = ReplacingMergeTree ORDER BY d_datekey;
