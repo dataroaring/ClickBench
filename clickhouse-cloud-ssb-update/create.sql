@@ -31,7 +31,7 @@ CREATE TABLE lineorder
     lo_commitdate           Date,
     lo_shipmode             LowCardinality(String)
 )
-ENGINE = ReplacingMergeTree PARTITION BY toYear(lo_orderdate) ORDER BY (lo_orderdate, lo_orderkey);
+ENGINE = ReplacingMergeTree PARTITION BY toYear(lo_orderdate) ORDER BY (lo_orderdate, lo_orderkey, lo_custkey, lo_partkey, lo_suppkey);
 
 CREATE TABLE part
 (

@@ -70,7 +70,7 @@ ${MYSQL_CMD} ssb -e "
 "
 
 ${MYSQL_CMD} ssb -e "
-    INSERT INTO lineorder SELECT c1, c6, c2, c3, c4, c5, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.*',
+    INSERT INTO lineorder SELECT c6, c1, c3, c4, c5, c2, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.*',
             's3.access_key'= '${S3_AK}',
             's3.secret_key' = '${S3_SK}',
             's3.endpoint' = 's3.us-west-2.amazonaws.com',
@@ -86,7 +86,7 @@ echo "$LOADTIME" > loadtime
 
 for index in `seq 1 $((${PERCENTAGE} / 10))`; do
     ${MYSQL_CMD} ssb -e "
-        INSERT INTO lineorder SELECT c1, c6, c2, c3, c4, c5, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.${index}.gz',
+        INSERT INTO lineorder SELECT c6, c1, c3, c4, c5, c2, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17 FROM s3('uri' = 's3://yyq-test/regression/ssb/sf100/lineorder.tbl.${index}.gz',
                 's3.access_key'= '${S3_AK}',
                 's3.secret_key' = '${S3_SK}',
                 's3.endpoint' = 's3.us-west-2.amazonaws.com',
