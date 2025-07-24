@@ -14,6 +14,7 @@ ROOT=$(pwd)
 export MYSQL_CMD="mysql -vvv -h${VELODB_ENDPOINT} -p${VELODB_PASSWORD} -P${VELODB_PORT} -u${VELODB_USER}"
 
 ${MYSQL_CMD} -e 'create database if not exists hits'
+${MYSQL_CMD} hits -e 'drop table if exists hits force'
 ${MYSQL_CMD} hits <"$ROOT"/create.sql
 
 # Load data

@@ -9,6 +9,8 @@
 # export FQDN=...
 # export PASSWORD=...
 
+clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --query "drop table if exists hits"
+
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure < create.sql
 
 clickhouse-client --host "$FQDN" --password "$PASSWORD" --secure --time --query "
